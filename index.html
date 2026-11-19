@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mission Control">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#101820">
+<title>Mission Control · Temporizadores</title>
+<style>
+:root{color-scheme:dark;--bg:#101820;--panel:#192831;--muted:#a5b5b7;--text:#f4f1df;--accent:#f3b544;--danger:#ff4d55;--line:#52656a;--green:#9fe3b2}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;min-height:100dvh;padding:env(safe-area-inset-top) 14px env(safe-area-inset-bottom);color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background-color:#171b1b;background-image:radial-gradient(ellipse at 13% 15%,transparent 0 35px,#6f482c44 36px 40px,transparent 41px 50px),radial-gradient(ellipse at 87% 69%,transparent 0 24px,#6f482c38 25px 30px,transparent 31px 42px),linear-gradient(135deg,#171b1b,#252521 48%,#121819);background-attachment:fixed}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:repeating-linear-gradient(0deg,transparent 0 3px,#c4b69b 4px,transparent 5px 8px);mix-blend-mode:soft-light;z-index:0}main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:20px 0 30px}
+header{position:relative;text-align:center;margin:0 0 18px;padding:18px 12px 15px;border:1px solid #62747a;border-radius:14px;background:linear-gradient(180deg,#263942ee,#17242bee);box-shadow:0 8px 24px #0008,inset 0 0 0 4px #0c151a}
+.eyebrow{font-size:.68rem;letter-spacing:.22em;color:var(--green);margin-bottom:7px}.rocket{font-size:2rem;display:block;filter:drop-shadow(0 0 8px #f3b54477);margin-bottom:2px}h1{font-size:clamp(1.45rem,6vw,2.15rem);margin:0 0 7px;letter-spacing:.07em;text-transform:uppercase}header p{margin:0;color:#c0ccca;font-size:.78rem;line-height:1.5}.statusline{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;font-size:.68rem;color:#a5b5b7;letter-spacing:.12em}.led{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px #9fe3b2}
+.current{position:relative;overflow:hidden;background:linear-gradient(145deg,#243942f5,#111d23f5);border:1px solid #64777b;border-radius:16px;padding:19px 14px 17px;text-align:center;margin-bottom:16px;box-shadow:0 12px 30px #0008,inset 0 0 0 4px #0b1519}.current:before,.current:after{content:"";position:absolute;width:10px;height:10px;border:2px solid #778b8c;border-radius:50%;top:10px}.current:before{left:10px}.current:after{right:10px}.label{font-size:.7rem;color:var(--green);letter-spacing:.14em;text-transform:uppercase}.clock{font-variant-numeric:tabular-nums;font-size:clamp(4rem,19vw,6.2rem);line-height:1.05;font-weight:900;letter-spacing:-.06em;margin:9px 0;color:#f6e9b7;text-shadow:0 0 22px #f3b5442b}.status{min-height:23px;color:#b8c5c2;font-size:.78rem}.controls{display:flex;gap:10px;justify-content:center;margin-top:14px}.control{border:1px solid #758589;border-radius:9px;padding:11px 18px;font:700 .85rem ui-monospace,monospace;background:#2d4149;color:#f4f1df;min-height:45px;flex:1;max-width:180px;text-transform:uppercase;letter-spacing:.06em}.control.primary{background:var(--accent);color:#20221d}
+.section-title{display:flex;justify-content:space-between;align-items:center;color:#d0d8cf;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin:0 3px 9px}.section-title span:last-child{color:#879b9c;font-size:.65rem}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.timer{position:relative;overflow:hidden;border:1px solid #52676d;background:linear-gradient(145deg,#263941,#19272d);color:white;border-radius:11px;min-height:78px;padding:12px 11px;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:8px;touch-action:manipulation;transition:transform .08s,background .15s,border-color .15s;box-shadow:0 4px 9px #0003}.timer:after{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:#647a7d}.timer:active{transform:scale(.98)}.timer.active{background:linear-gradient(145deg,#4d4428,#293b3d);border-color:var(--accent);box-shadow:0 0 0 1px #f3b54455,0 0 16px #f3b54420}.timer.active:after{background:var(--accent)}.timer .num{font-size:.62rem;color:#a9b8b7;display:block;margin-bottom:5px;letter-spacing:.13em}.timer .time{font-size:clamp(1.25rem,5vw,1.55rem);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.03em}.play{font-size:1rem;color:var(--green)}.timer.active .play{color:var(--accent)}.audio-panel{margin:0 0 16px;padding:13px;border:1px solid #52676d;border-radius:12px;background:linear-gradient(145deg,#202f34,#151f23);box-shadow:0 4px 12px #0004}.audio-title{font-size:.72rem;letter-spacing:.12em;color:var(--green);text-transform:uppercase;margin-bottom:8px}.audio-row{display:flex;gap:8px;flex-wrap:wrap}.audio-btn{border:1px solid #758589;border-radius:8px;padding:10px 12px;font:700 .75rem ui-monospace,monospace;background:#2d4149;color:#f4f1df;min-height:42px;flex:1}.audio-btn.primary{background:var(--accent);color:#20221d}.audio-status{font-size:.7rem;line-height:1.5;color:#a5b5b7;margin:8px 0 0;overflow-wrap:anywhere}.audio-panel input[type=file]{display:none}.hint{text-align:center;color:#9aaba9;font-size:.68rem;line-height:1.6;margin:15px 8px 0}.footnote{margin-top:12px;text-align:center;color:#7e908f;font-size:.6rem;letter-spacing:.1em}
+.overlay{position:fixed;inset:0;z-index:10;background:#070b0deF;display:none;align-items:center;justify-content:center;padding:20px;text-align:center}.overlay.show{display:flex;animation:flashbg .65s steps(2,end) infinite}.alarmbox{width:min(100%,480px);background:linear-gradient(145deg,#641f25,#2a171c);border:2px solid #ff6565;border-radius:15px;padding:30px 20px;box-shadow:0 0 0 5px #ff4d5525,0 0 50px #ff242455}.alarm-icon{font-size:3rem;margin-bottom:8px}.alarmbox h2{font-size:clamp(2rem,10vw,3.4rem);margin:0 0 9px;line-height:1.05;color:#fff0d8;letter-spacing:.05em}.alarmbox p{font-size:.95rem;line-height:1.5;margin:0 0 23px;color:#ffd5cd}.alarmbox button{border:1px solid #fff0d8;border-radius:9px;background:#fff0d8;color:#5e1c21;font:900 1rem ui-monospace,monospace;letter-spacing:.06em;padding:15px 24px;min-height:52px;width:100%}.alarmtag{font-size:.65rem;letter-spacing:.2em;color:#ff9690;margin-bottom:10px}@keyframes flashbg{0%,100%{background:#070b0def}50%{background:#321014f2}}
+@media(min-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.timer{min-height:86px;padding:14px}}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+<header><span class="rocket" aria-hidden="true">🚀</span><div class="eyebrow">NAVE ORBITAL · CONSOLA 07</div><h1>Mission Control</h1><p>PROTOCOLO DE CRONOMETRAJE · SELECCIONA TU CUENTA ATRÁS</p><div class="statusline"><span class="led"></span> SISTEMAS OPERATIVOS <span>///</span> CAFÉ A BORDO ☕</div></header>
+<section class="current" aria-live="polite">
+<div class="label" id="activeLabel">Consola en espera</div>
+<div class="clock" id="clock">00:00</div>
+<div class="status" id="status">Selecciona una secuencia para iniciar</div>
+<div class="controls"><button class="control" id="pauseBtn" type="button">Pausar</button><button class="control" id="resetBtn" type="button">Reiniciar</button></div>
+</section>
+<div class="section-title"><span>Secuencias temporizadas</span><span>10 PROGRAMAS DISPONIBLES</span></div>
+<section class="grid" id="buttons" aria-label="Temporizadores fijos">
+<button type="button" class="timer" data-index="0"><span><span class="num">PROGRAMA 01</span><span class="time">00:50</span></span><span class="play" aria-hidden="true">▶</span></button>
+<button type="button" class="timer" data-index="1"><span><span class="num">PROGRAMA 02</span><span class="time">00:55</span></span><span class="play" aria-hidden="true">▶</span></button>
+<button type="button" class="timer" data-index="2"><span><span class="num">PROGRAMA 03</span><span class="time">01:05</span></span><span class="play" aria-hidden="true">▶</span></button>
+<button type="button" class="timer" data-index="3"><span><span class="num">PROGRAMA 04</span><span class="time">01:15</span></span><span class="play" aria-hidden="true">▶</span></button>
+<button type="button" class="timer" data-index="4"><span><span class="num">PROGRAMA 05</span><span class="time">01:25</span></span><span class="play" aria-hidden="true">▶</span></button>
+<button type="button" class="timer" data-index="5"><span><span class="num">PROGRAMA 06</span><span class="time">01:35</span></span><span class="play" aria-hidden="true">▶</span></button>
+<button type="button" class="timer" data-index="6"><span><span class="num">PROGRAMA 07</span><span class="time">01:40</span></span><span class="play" aria-hidden="true">▶</span></button>
+<button type="button" class="timer" data-index="7"><span><span class="num">PROGRAMA 08</span><span class="time">01:50</span></span><span class="play" aria-hidden="true">▶</span></button>
+<button type="button" class="timer" data-index="8"><span><span class="num">PROGRAMA 09</span><span class="time">01:55</span></span><span class="play" aria-hidden="true">▶</span></button>
+<button type="button" class="timer" data-index="9"><span><span class="num">PROGRAMA 10</span><span class="time">02:00</span></span><span class="play" aria-hidden="true">▶</span></button>
+</section>
+<section class="audio-panel" aria-label="Sonido de alarma personalizado"><div class="audio-title">🔊 Módulo de alarma personalizada</div><div class="audio-row"><button class="audio-btn primary" id="chooseSoundBtn" type="button">Elegir sonido</button><button class="audio-btn" id="testSoundBtn" type="button">Probar sonido</button><button class="audio-btn" id="clearSoundBtn" type="button">Restaurar audio integrado</button></div><input id="soundFile" type="file" accept="audio/*,.mp3,.m4a,.wav,.aac,.caf,.aiff,.ogg"><p class="audio-status" id="audioStatus">Audio predeterminado cargado: alarma.mp3. Se repetirá hasta pulsar SILENCIAR ALARMA. Puedes elegir otro archivo si lo prefieres.</p><audio id="customAudio" preload="auto" loop></audio></section>
+<p class="hint">CAMBIO DE SECUENCIA: EL TEMPORIZADOR ANTERIOR SE DETIENE<br>Para que la alarma se escuche, mantén esta consola abierta durante la misión.</p><div class="footnote">NO OLVIDES LA TAZA · CHECKLIST DE VUELO ☕</div>
+</main>
+<div class="overlay" id="overlay" role="alertdialog" aria-modal="true" aria-labelledby="alarmTitle">
+<div class="alarmbox"><div class="alarmtag">⚠ ALERTA CRÍTICA · ALERTA CRÍTICA ⚠</div><div class="alarm-icon" aria-hidden="true">🚨</div><h2 id="alarmTitle">¡FALLO DE SISTEMA!</h2><p id="alarmText">Cuenta atrás completada. Revisa la nave.</p><button id="dismissBtn" type="button">SILENCIAR ALARMA</button></div>
+</div>
+<script>
+(() => {
+  const timers = [50,55,65,75,85,95,100,110,115,120];
+  const $ = id => document.getElementById(id);
+  const clock = $('clock'), activeLabel = $('activeLabel'), status = $('status');
+  const buttons = $('buttons'), pauseBtn = $('pauseBtn'), resetBtn = $('resetBtn');
+  const overlay = $('overlay'), alarmText = $('alarmText'), dismissBtn = $('dismissBtn');
+  const chooseSoundBtn = $('chooseSoundBtn'), testSoundBtn = $('testSoundBtn'), clearSoundBtn = $('clearSoundBtn'), soundFile = $('soundFile'), audioStatus = $('audioStatus'), customAudio = $('customAudio');
+  const embeddedAlarm = './alarma.mp3';
+  let active = null, deadline = 0, remaining = 0, interval = null, paused = false, audioCtx = null, alarmInterval = null, soundUrl = null, customSoundLoaded = true;
+  customAudio.src = embeddedAlarm;
+  const format = seconds => {
+    seconds = Math.max(0, Math.ceil(seconds));
+    return String(Math.floor(seconds/60)).padStart(2,'0') + ':' + String(seconds%60).padStart(2,'0');
+  };
+  const timerButtons = [...buttons.querySelectorAll('button[data-index]')];
+  timerButtons.forEach((b,i) => {
+    b.setAttribute('aria-label', `Iniciar temporizador ${i+1}, ${format(timers[i])}`);
+    b.addEventListener('click', () => start(i));
+  });
+  function ensureAudio(){
+    try { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume(); } catch(e) {}
+  }
+  function beep(){
+    if(!audioCtx) return;
+    const now = audioCtx.currentTime;
+    [0,0.24,0.48].forEach((offset,i)=>{
+      const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
+      osc.type='sawtooth'; osc.frequency.setValueAtTime(i===1?980:620,now+offset); osc.frequency.linearRampToValueAtTime(i===1?620:980,now+offset+0.20);
+      gain.gain.setValueAtTime(0.0001,now+offset); gain.gain.exponentialRampToValueAtTime(0.22,now+offset+0.025); gain.gain.setValueAtTime(0.18,now+offset+0.14); gain.gain.exponentialRampToValueAtTime(0.0001,now+offset+0.22);
+      osc.connect(gain); gain.connect(audioCtx.destination); osc.start(now+offset); osc.stop(now+offset+0.24);
+    });
+  }
+  function stopAlarm(){ if(alarmInterval){clearInterval(alarmInterval);alarmInterval=null;} overlay.classList.remove('show'); customAudio.pause(); try{customAudio.currentTime=0;}catch(e){} }
+  function stopClock(){if(interval){clearInterval(interval);interval=null;}}
+  function render(){clock.textContent=format(remaining);timerButtons.forEach((b,i)=>{b.classList.toggle('active',i===active);b.querySelector('.play').textContent=i===active?'●':'▶';});}
+  function start(i){
+    stopClock(); stopAlarm(); ensureAudio(); active=i; remaining=timers[i]; deadline=Date.now()+remaining*1000; paused=false;
+    activeLabel.textContent=`Programa ${String(i+1).padStart(2,'0')} · Misión activa`; status.textContent='Cuenta atrás en marcha · sistemas nominales'; pauseBtn.textContent='Pausar';
+    render(); interval=setInterval(tick,100); tick();
+  }
+  function playAlarm(){
+    if(customSoundLoaded){
+      customAudio.loop=true;
+      try{customAudio.currentTime=0;const promise=customAudio.play();if(promise&&promise.catch)promise.catch(()=>{audioStatus.textContent='No se ha podido reproducir alarma.mp3. Comprueba que esté junto a index.html y pulsa «Probar sonido».';});}catch(e){audioStatus.textContent='No se ha podido reproducir alarma.mp3. Comprueba que esté junto a index.html y pulsa «Probar sonido».';}
+    }else { audioStatus.textContent='No se ha cargado alarma.mp3. Comprueba que esté junto a index.html.'; }
+  }
+  function tick(){
+    if(paused||active===null)return;
+    remaining=Math.max(0,(deadline-Date.now())/1000); render();
+    if(remaining<=0){stopClock();remaining=0;render();status.textContent='¡Alerta crítica! Secuencia completada';activeLabel.textContent='Emergencia · protocolo activado';alarmText.textContent=`El programa ${String(active+1).padStart(2,'0')} (${format(timers[active])}) ha terminado. ¡Incidente detectado en la nave!`;overlay.classList.add('show');playAlarm();try{if(navigator.vibrate)navigator.vibrate([300,120,300,120,600]);}catch(e){}alarmInterval=setInterval(()=>{if(customSoundLoaded&&customAudio.paused){try{customAudio.currentTime=0;customAudio.play().catch(()=>{audioStatus.textContent='No se ha podido reproducir alarma.mp3. Comprueba que esté junto a index.html.';});}catch(e){audioStatus.textContent='No se ha podido reproducir alarma.mp3. Comprueba que esté junto a index.html.';}}},1800);dismissBtn.focus();}
+  }
+  pauseBtn.addEventListener('click',()=>{
+    if(active===null||remaining<=0)return;
+    if(!paused){remaining=Math.max(0,(deadline-Date.now())/1000);paused=true;stopClock();pauseBtn.textContent='Reanudar';status.textContent='Temporizador pausado';render();}
+    else{paused=false;deadline=Date.now()+remaining*1000;pauseBtn.textContent='Pausar';status.textContent='Cuenta atrás en marcha';interval=setInterval(tick,100);tick();}
+  });
+  resetBtn.addEventListener('click',()=>{stopClock();stopAlarm();active=null;remaining=0;paused=false;clock.textContent='00:00';activeLabel.textContent='Consola en espera';status.textContent='Selecciona una secuencia para iniciar';pauseBtn.textContent='Pausar';render();});
+  function dismiss(){stopAlarm();status.textContent='Alarma silenciada · listo para nueva secuencia';activeLabel.textContent='Consola en espera';}
+  dismissBtn.addEventListener('click',dismiss);
+  chooseSoundBtn.addEventListener('click',()=>soundFile.click());
+  soundFile.addEventListener('change',()=>{const file=soundFile.files&&soundFile.files[0];if(!file)return;if(!file.type.startsWith('audio/')&&!/\.(mp3|m4a|wav|aac|caf|aiff|ogg)$/i.test(file.name)){audioStatus.textContent='Ese archivo no parece ser un audio compatible. Elige un MP3, M4A o WAV.';return;}if(soundUrl)URL.revokeObjectURL(soundUrl);soundUrl=URL.createObjectURL(file);customAudio.src=soundUrl;customAudio.load();customSoundLoaded=true;audioStatus.textContent='Sonido seleccionado: '+file.name+'. Se repetirá durante la alarma hasta que pulses SILENCIAR ALARMA. El audio predeterminado alarma.mp3 seguirá disponible con «Restaurar audio integrado».';});
+  testSoundBtn.addEventListener('click',()=>{ensureAudio();if(customSoundLoaded){try{customAudio.pause();customAudio.currentTime=0;customAudio.loop=false;const p=customAudio.play();if(p&&p.catch)p.catch(()=>{audioStatus.textContent='Safari no ha podido reproducirlo. Toca la página e inténtalo de nuevo.';});customAudio.onended=()=>{customAudio.loop=true;};audioStatus.textContent='Reproduciendo una prueba del sonido personalizado.';}catch(e){audioStatus.textContent='No se ha podido reproducir el archivo. Prueba con MP3 o M4A.';}}else{beep();audioStatus.textContent='Audio de emergencia integrado. Puedes elegir otro archivo si prefieres personalizarlo.';}});
+  clearSoundBtn.addEventListener('click',()=>{customAudio.pause();if(soundUrl){URL.revokeObjectURL(soundUrl);soundUrl=null;}customAudio.src=embeddedAlarm;customAudio.load();customSoundLoaded=true;soundFile.value='';audioStatus.textContent='Audio predeterminado alarma.mp3 restaurado. Se repetirá hasta pulsar SILENCIAR ALARMA.';});
+  overlay.addEventListener('click',e=>{if(e.target===overlay)dismiss();});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&active!==null&&!paused&&remaining>0)tick();});
+  render();
+})();
+</script>
+</body>
+</html>
